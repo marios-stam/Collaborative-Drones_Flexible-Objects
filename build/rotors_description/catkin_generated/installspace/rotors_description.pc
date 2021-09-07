@@ -1,0 +1,8 @@
+prefix=/home/marios/catkin_ws/install
+
+Name: rotors_description
+Description: Description of rotors_description
+Version: 4.0.15
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

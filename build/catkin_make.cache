@@ -1,0 +1,2 @@
+catkin_simple:thesis_drone
+-DCATKIN_DEVEL_PREFIX=/home/marios/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/marios/catkin_ws/install -G Unix Makefiles

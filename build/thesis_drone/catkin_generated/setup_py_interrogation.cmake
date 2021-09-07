@@ -1,0 +1,7 @@
+set(thesis_drone_SETUP_PY_SETUP_MODULE "distutils.core")
+set(thesis_drone_SETUP_PY_VERSION "0.0.0")
+set(thesis_drone_SETUP_PY_SCRIPTS "")
+set(thesis_drone_SETUP_PY_PACKAGES "thesis_drone")
+set(thesis_drone_SETUP_PY_PACKAGE_DIRS "src/thesis_drone")
+set(thesis_drone_SETUP_PY_MODULES "")
+set(thesis_drone_SETUP_PY_MODULE_DIRS "")

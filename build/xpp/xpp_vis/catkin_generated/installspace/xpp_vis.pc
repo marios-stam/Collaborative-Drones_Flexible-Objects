@@ -1,0 +1,8 @@
+prefix=/home/marios/catkin_ws/install
+
+Name: xpp_vis
+Description: Description of xpp_vis
+Version: 1.0.10
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib -lxpp_vis
+Requires: xpp_states xpp_msgs

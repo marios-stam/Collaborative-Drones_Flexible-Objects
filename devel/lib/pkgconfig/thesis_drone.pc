@@ -1,0 +1,8 @@
+prefix=/home/marios/catkin_ws/devel
+
+Name: thesis_drone
+Description: Description of thesis_drone
+Version: 0.0.0
+Cflags: -I/home/marios/catkin_ws/devel/include
+Libs: -L${prefix}/lib 
+Requires: message_runtime
