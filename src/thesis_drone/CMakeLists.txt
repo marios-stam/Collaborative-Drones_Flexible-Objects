@@ -165,6 +165,7 @@ catkin_install_python(PROGRAMS
   scripts/pose_visualisation.py
   scripts/rviz_visual.py
   scripts/pose_extraction.py
+  scripts/obs_generation.py
   
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
