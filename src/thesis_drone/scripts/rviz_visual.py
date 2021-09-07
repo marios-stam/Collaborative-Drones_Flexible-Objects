@@ -24,7 +24,7 @@ class DroneMarker(Marker):
 
         self.updatePose(pos,rpy)
 
-        scale_fac=1/200
+        scale_fac=1/400
         self.scale.x = scale_fac
         self.scale.y = scale_fac
         self.scale.z = scale_fac
@@ -49,7 +49,6 @@ class DroneMarker(Marker):
         self.pose.orientation.w = quatern[3]
 
 
-
 def main():
     droneMarkPub = rospy.Publisher('robotMarker', Marker, queue_size=10)
 
@@ -61,7 +60,6 @@ def main():
     
     robotMarker=DroneMarker()
     
-
     #addBox()
     pose_estimator=pose_extractor(USB_cam=0)
     while not rospy.is_shutdown():
