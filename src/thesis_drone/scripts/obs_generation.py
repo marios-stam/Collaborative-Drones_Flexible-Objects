@@ -11,12 +11,15 @@ from math import pi,sqrt
 
 GRID_OFFSET=2
 
-obs_positions=[
-    (  0, 2,0 ),
-    ( -2, 2,0 ),
-    (  2, 2,0 ),
-    (  2, 0,0 ),
-    (  2,-2,0 )    
+obs_setup=[
+    (  0, 2,0,Marker.CYLINDER ),
+    ( -2, 2,0,Marker.CYLINDER ),
+    (  2, 2,0,Marker.CYLINDER ),
+    (  2, 0,0,Marker.CYLINDER ),
+    (  2,-2,0,Marker.CYLINDER ),
+
+    (  3,-4,0,Marker.SPHERE ),
+    (  4,-3,0,Marker.SPHERE ),
 ]
 
 lims_positions=[
@@ -28,14 +31,21 @@ lims_positions=[
 
 
 class obsMarkersArray(MarkerArray):
-    def __init__(self,obs_positions):
+    def __init__(self,obs_setup):
         super().__init__()
         self.markers=[]
         
-        for i,pos in enumerate(obs_positions):
+        for i,obs in enumerate(obs_setup):
             name="obs_"+str(i)
-            m=ObstacleMarker(name,pos)
+            pos=obs[:3]
+            type=obs[3]
 
+            select_type={
+                Marker.CYLINDER:CylinderObs,
+                Marker.SPHERE:SphereObs
+            }
+            # m=ObstacleMarker(name,pos)
+            m=select_type[type](name,pos)
             self.markers.append(m)
 
 class LimsMarkersArray(MarkerArray):
@@ -56,14 +66,10 @@ class ObstacleMarker(Marker):
         self.header.stamp    = rospy.get_rostime()
         self.ns = name
         self.id = 0
-        self.type = Marker.CYLINDER
         self.action = 0
 
-        self.height=5
-        pos=(pos[0],pos[1],GRID_OFFSET-self.height/2)
         self.updatePose(pos,rpy)
 
-        
         self.scale.x = scale[0]
         self.scale.y = scale[1]
         self.scale.z = scale[2]
@@ -87,44 +93,32 @@ class ObstacleMarker(Marker):
         self.pose.orientation.z = quatern[2]
         self.pose.orientation.w = quatern[3]
 
-class LimMarker(Marker):
-    def __init__(self,name,pos=[0,0,0],scale=(1/5,1/5,5),rpy=[0,0,0]):
-        super().__init__()
-        self.header.frame_id = "world"
-        self.header.stamp    = rospy.get_rostime()
-        self.ns = name
-        self.id = 0
+class LimMarker(ObstacleMarker):
+     def __init__(self, name, pos, scale=(1/5,1/5,5),rpy=[0,0,0]):
+        super().__init__(name, pos=pos, scale=scale, rpy=rpy)
         self.type = Marker.CYLINDER
-        self.action = 0
-
         self.height=5
         pos=(pos[0],pos[1],GRID_OFFSET-self.height/2)
-        self.updatePose(pos,rpy)
-
-        
-        self.scale.x = scale[0]
-        self.scale.y = scale[1]
-        self.scale.z = scale[2]
-
         self.color.r = 1.0
         self.color.g = 0.0
         self.color.b = 1.0
         self.color.a = 1.0
-        
-        self.lifetime = rospy.Duration(0)
+        self.updatePose(pos,rpy)
+class CylinderObs(ObstacleMarker):
+    def __init__(self, name, pos, scale=(1,1,5),rpy=[0,0,0]):
+        super().__init__(name, pos=pos, scale=scale, rpy=rpy)
+        self.type = Marker.CYLINDER
+        self.height=5
+        pos=(pos[0],pos[1],GRID_OFFSET-self.height/2)
+        self.updatePose(pos,rpy)
 
-    def updatePose(self,pos,rpy):
-        self.pose.position.x=pos[0]
-        self.pose.position.y=pos[1]
-        self.pose.position.z=pos[2]
-
-        quatern=transformations.quaternion_from_euler(rpy[0], -rpy[1], rpy[2])
-        # quatern=transformations.quaternion_from_euler(pi/2 ,0, rpy[2])
-        self.pose.orientation.x = quatern[0]
-        self.pose.orientation.y = quatern[1]
-        self.pose.orientation.z = quatern[2]
-        self.pose.orientation.w = quatern[3]
-
+class SphereObs(ObstacleMarker):
+    def __init__(self, name, pos, scale=(1,1,1),rpy=[0,0,0]):
+        super().__init__(name, pos=pos, scale=scale, rpy=rpy)
+        self.type = Marker.SPHERE
+        self.radius=scale[2]
+        pos=(pos[0],pos[1],GRID_OFFSET-self.radius)
+        self.updatePose(pos,rpy)
 
 def addBox():
     scene = PlanningSceneInterface()
@@ -146,12 +140,13 @@ def main():
     rospy.init_node('obs_generator')
     rate = rospy.Rate(5)  # hz
     
-    obstacles=obsMarkersArray(obs_positions)
+    obstacles=obsMarkersArray(obs_setup)
     limits=LimsMarkersArray(lims_positions)
 
+    
     while not rospy.is_shutdown():
         obsMarkPub.publish(obstacles)
-        limsMarkPub.publish(limits)
+        limsMarkPub.publish(limits)    
         rate.sleep()
 
 if __name__ == '__main__':
