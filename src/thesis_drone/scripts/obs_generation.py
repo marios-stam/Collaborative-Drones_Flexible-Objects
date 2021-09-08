@@ -8,6 +8,7 @@ from visualization_msgs.msg import Marker,MarkerArray
 from geometry_msgs.msg import PoseStamped
 
 from math import pi,sqrt
+from scipy.spatial import distance
 
 GRID_OFFSET=2
 
@@ -112,6 +113,20 @@ class CylinderObs(ObstacleMarker):
         pos=(pos[0],pos[1],GRID_OFFSET-self.height/2)
         self.updatePose(pos,rpy)
 
+    def collides_with_point(self,point:list,safe_distance=0) -> bool:
+        cyl_r=self.scale.x+safe_distance
+        cyl_height=self.height+safe_distance
+        cyl_centerXY=(self.pose.position.x,self.pose.position.y)
+        cyl_centerZ=self.pose.position.z
+        
+        pXY=point[:2]
+        pZ=point[2]
+
+        d = distance.euclidean(pXY,cyl_centerXY )
+        height_check = pZ<= cyl_centerZ-cyl_height/2 and pZ>= cyl_centerZ+cyl_height/2
+
+        return ( d<cyl_r and height_check )
+
 class SphereObs(ObstacleMarker):
     def __init__(self, name, pos, scale=(1,1,1),rpy=[0,0,0]):
         super().__init__(name, pos=pos, scale=scale, rpy=rpy)
@@ -119,6 +134,12 @@ class SphereObs(ObstacleMarker):
         self.radius=scale[2]
         pos=(pos[0],pos[1],GRID_OFFSET-self.radius)
         self.updatePose(pos,rpy)
+    
+    def collides_with_point(self,point:list,safe_distance=0) -> bool:
+        center=(self.pose.position.x,self.pose.position.y,self.pose.position.z)
+        d = distance.euclidean(point,center )
+
+        return d < ( self.radius + safe_distance )
 
 def addBox():
     scene = PlanningSceneInterface()

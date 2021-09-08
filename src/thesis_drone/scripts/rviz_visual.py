@@ -52,7 +52,7 @@ class DroneMarker(Marker):
 def main():
     droneMarkPub = rospy.Publisher('robotMarker', Marker, queue_size=10)
 
-    rospy.init_node('rviz_visualizer')
+    rospy.init_node('drone_tracker')
     rate = rospy.Rate(20)  # 20hz
 
     translation = (0.0, 0.0, 0.0)

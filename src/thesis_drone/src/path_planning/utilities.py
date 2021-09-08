@@ -1,19 +1,35 @@
-import math
+from scipy.spatial import Voronoi, voronoi_plot_2d
+import matplotlib.pyplot as plt
+
+obs_setup=[
+    (  0, 2,0,66),
+    ( -2, 2,0,66),
+    (  2, 2,0,66),
+    (  2, 0,0,66),
+    (  2,-2,0,66),
+    (  3,-4,0,66),
+    (  4,-3,0,66),
+    (  4.1,-3,0,66),
+    (  4.3,-3,0,66),
+    (  4,-3.1,0,66),
+    (  4,-3.2,0,66)
+]
+
+lims_positions=[
+    (  5, 5,0 ),
+    ( -5, 5,0 ),
+    (  5,-5,0 ),
+    ( -5,-5,0 ),
+]
 
 
 
-def point_collides_with_cylinder(pos:list) -> bool:
-    cyl_r=
-    cyl_height=
-    cyl_center=
+joined = obs_setup+lims_positions
+points=[]
 
-    d=distance2D(pos,cyl_center)
-    height_check = pos[2]<= cyl_center[2]-cyl_height/2 and pos[2]>= cyl_center[2]+cyl_height/2
+for p in joined:
+    points.append(p[:2])
 
-    return ( d<cyl_r and height_check )
-
-def distance2D(p1,p2):
-    d2=(p1[0]-p2[0])**2 + (p1[1]-p2[1])**2  
-    return math.sqrt( d2 )
-
-
+vor = Voronoi(points)
+fig = voronoi_plot_2d(vor)
+plt.show()
