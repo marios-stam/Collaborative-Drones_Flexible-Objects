@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 from path_planner import VoronoiRoadMapPlanner
 
-show_animation = 1
+show_animation = 0
 
 pi=math.pi
 def PointsInCircum(r,n=100):
@@ -25,7 +25,7 @@ def main():
     sy = -2  # [m]
     gx = 3  # [m]
     gy = 2  # [m]
-    robot_size = 0.01  # [m]
+    robot_size = 0.1  # [m]
 
     ox = []
     oy = []
@@ -47,19 +47,19 @@ def main():
         ox.append(i/n_points_limits*limit_len-limit_len/2)
         oy.append(-limit_len/2)
 
-    points=PointsInCircum(r=1,n=100)
+    points=PointsInCircum(r=1,n=20)
 
     for i in points:
         ox.append(i[0]+1.5)
         oy.append(i[1]+1.5)
 
-    points=PointsInCircum(r=1,n=100)
+    points=PointsInCircum(r=1,n=20)
     for i in points:
         ox.append(i[0]-1.5)
         oy.append(i[1]-1.5)
 
     if show_animation:  # pragma: no cover
-        # plt.plot(ox, oy, ".k")
+        plt.plot(ox, oy, ".k")
         plt.plot(sx, sy, "^r")
         plt.plot(gx, gy, "^c")
         plt.grid(True)
@@ -75,6 +75,6 @@ def main():
         plt.pause(0.1)
         plt.show()
 
-
+    
 if __name__ == '__main__':
     main()

@@ -162,7 +162,7 @@ include_directories(
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS 
-  scripts/pose_visualisation.py
+  scripts/path_planning.py
   scripts/rviz_visual.py
   scripts/pose_extraction.py
   scripts/obs_generation.py

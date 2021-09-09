@@ -155,9 +155,9 @@ def addBox():
     scene.add_box("table", p, (0.5, 1.5, 0.6))
 
 def main():
-    obsMarkPub = rospy.Publisher('obsMarkers_array', MarkerArray, queue_size=10)
+    obsMarkPub =  rospy.Publisher('obsMarkers_array',  MarkerArray, queue_size=10)
     limsMarkPub = rospy.Publisher('limsMarkers_array', MarkerArray, queue_size=10)
-
+    
     rospy.init_node('obs_generator')
     rate = rospy.Rate(5)  # hz
     
