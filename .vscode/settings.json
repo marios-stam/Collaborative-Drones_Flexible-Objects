@@ -4,6 +4,8 @@
         "/opt/ros/noetic/lib/python3/dist-packages"
     ],
     "python.analysis.extraPaths": [
-        "/opt/ros/noetic/lib/python3/dist-packages"
+        "/opt/ros/noetic/lib/python3/dist-packages",
+        "./src/thesis_drone/src",
+        "./src/thesis_drone/src"
     ]
 }
