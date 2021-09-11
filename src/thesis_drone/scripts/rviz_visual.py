@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # license removed for brevity
+import math
 import rospy
 from thesis_drone.msg import drone_pose 
 from Drone_Pose_Estimation import pose_extractor
@@ -71,7 +72,7 @@ def main():
             x,y,z = -x/scale_div,-y/scale_div,CAMERA_HEIGHT-z/scale_div
             pos=[x,y,z]
             
-            rpy=(0,0,rpy[2])
+            rpy=(0,math.pi,rpy[2])
             robotMarker.updatePose( pos,rpy )
             
         droneMarkPub.publish(robotMarker)
