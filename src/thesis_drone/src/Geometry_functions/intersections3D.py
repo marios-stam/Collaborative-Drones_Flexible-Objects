@@ -44,6 +44,9 @@ def line_cylinder(line_start,line_end,cyl_center,r,cyl_height):
 
 
 def line_sphere(line_start,line_end,sphere_center,r):
+    """ Followed the process explained into:
+        http://www.ambrsoft.com/TrigoCalc/Sphere/SpherLineIntersection_.htm
+    """
     x1 , y1 ,z1 = line_start[0] , line_start[1] ,line_start[2]
     x2 , y2 ,z2 = line_end[0]   , line_end[1]   ,line_end[2]
 
@@ -83,7 +86,6 @@ def line_sphere(line_start,line_end,sphere_center,r):
         return None , None
     
 if __name__=="__main__":
-    
     #testing functions
     l_st = [0,0,0]
     l_end= [7.071067811865474, -7.071067811865477,1]

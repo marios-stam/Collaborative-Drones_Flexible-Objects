@@ -1,0 +1,6 @@
+roscore
+rosrun thesis_drone obs_generation.py
+rosrun rviz rviz -d /home/marios/catkin_ws/src/thesis_drone/rviz_conf_obs_markers.rviz
+rosrun thesis_drone rviz_visual.py
+osrun thesis_drone measurements.py
+

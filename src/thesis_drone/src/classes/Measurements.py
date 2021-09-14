@@ -111,7 +111,7 @@ class DroneMeasurements:
         
         lines_points=[]
         for i in range(number_of_distances):
-            angle = i * angle_step
+            angle = i * angle_step+self.orientation[2]
             
             x_dir = math.cos(angle)
             y_dir = math.sin(angle)
