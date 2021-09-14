@@ -1,6 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # license removed for brevity
 import math
+from sys import last_type
 import rospy
 from rospy import topics
 from thesis_drone.msg import drone_pose 
@@ -9,24 +10,24 @@ from scipy.spatial import distance
 from tf import transformations
 from scipy.spatial.transform import Rotation
 
+from Geometry_functions import  intersections3D
 
 from classes import DroneMeasurements
-initial_position=[0.2,-0.1,0]
+initial_position=[0,0]
 
-obs_distMarkPub =  rospy.Publisher('obs_distances_array',  MarkerArray, queue_size=10)
-measurements=DroneMeasurements(initial_position,obs_distMarkPub)
+measurements=DroneMeasurements(initial_position)
 
 def listener():
     node_name='measurements'
     rospy.init_node(node_name, anonymous=False)
 
     topic_name='robotMarker'
-    rospy.Subscriber(topic_name, Marker, measurements.update__drone_pose)
+    rospy.Subscriber(topic_name, MarkerArray, measurements.update_dist_measurement)
 
     topic_name='obsMarkers_array'
     rospy.Subscriber(topic_name, MarkerArray, measurements.update_obstacles)
 
-    
+    obs_distMarkPub =  rospy.Publisher('obs_distances_array',  MarkerArray, queue_size=10)
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()
 

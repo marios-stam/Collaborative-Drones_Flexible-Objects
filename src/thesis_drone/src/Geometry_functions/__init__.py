@@ -1,1 +1,1 @@
-import  intersections3D
+from . import intersections3D

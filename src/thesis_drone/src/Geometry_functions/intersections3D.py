@@ -1,4 +1,5 @@
-import intersections2D
+from . import intersections2D
+# import intersections2D
 import math
 
 def intersection_with_cylinder_in_z(int_point,line_start,line_end,cyl_center,cyl_height):
@@ -22,7 +23,7 @@ def intersection_with_cylinder_in_z(int_point,line_start,line_end,cyl_center,cyl
     
 def line_cylinder(line_start,line_end,cyl_center,r,cyl_height):
 
-    p1,p2 = intersections2D.line_circle(line_start,line_end,cyl_center,r)
+    p1,p2 = intersections2D.circle_line_segment_intersection(line_start,line_end,cyl_center,r)
     
 
     if p1 == None and p2==None:   #no intersection
@@ -36,8 +37,8 @@ def line_cylinder(line_start,line_end,cyl_center,r,cyl_height):
         x_int1 , y_int1 = p1[0] , p1[1]
         x_int2 , y_int2 = p2[0] , p2[1]
 
-        int_point1 = intersection_with_cylinder_in_z(p1,line_start,line_end)
-        int_point2 = intersection_with_cylinder_in_z(p2,line_start,line_end)
+        int_point1 = intersection_with_cylinder_in_z(p1,line_start,line_end , cyl_center,cyl_height)
+        int_point2 = intersection_with_cylinder_in_z(p2,line_start,line_end , cyl_center,cyl_height)
 
         return int_point1,int_point2
 
@@ -82,11 +83,12 @@ def line_sphere(line_start,line_end,sphere_center,r):
         return None , None
     
 if __name__=="__main__":
+    
     #testing functions
-    l_st = [1,1,1]
-    l_end= [2,2,2]
-    sph_center=[5,4,8]
-    r=8
-    p1,p2=line_sphere(l_st,l_end,sph_center,r)
+    l_st = [0,0,0]
+    l_end= [7.071067811865474, -7.071067811865477,1]
+    sph_center=[4,-3,0]
+    r=1
+    p1,p2=line_cylinder(l_st,l_end,sph_center,r,4)
     print(p1)
     print(p2)

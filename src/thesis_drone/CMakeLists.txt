@@ -164,7 +164,7 @@ include_directories(
 catkin_install_python(PROGRAMS 
   scripts/path_planning.py
   scripts/rviz_visual.py
-  scripts/pose_extraction.py
+  scripts/measurements.py
   scripts/obs_generation.py
   
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

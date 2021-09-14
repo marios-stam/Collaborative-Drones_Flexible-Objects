@@ -105,7 +105,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/thesis_drone" TYPE PROGRAM FILES "/home/marios/catkin_ws/build/thesis_drone/catkin_generated/installspace/pose_extraction.py")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/thesis_drone" TYPE PROGRAM FILES "/home/marios/catkin_ws/build/thesis_drone/catkin_generated/installspace/measurements.py")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
