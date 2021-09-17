@@ -166,6 +166,7 @@ catkin_install_python(PROGRAMS
   scripts/rviz_visual.py
   scripts/measurements.py
   scripts/obs_generation.py
+  scripts/tello.py
   
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

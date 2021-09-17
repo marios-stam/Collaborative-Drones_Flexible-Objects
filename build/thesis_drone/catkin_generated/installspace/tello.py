@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # license removed for brevity
 import rospy
 from thesis_drone.msg import drone_pose
@@ -6,7 +6,7 @@ from djitellopy import Tello
 from tf import TransformBroadcaster,transformations
 from rospy import Time 
 import numpy as np
-import time
+
 tello = Tello()
 
 tello.connect()
@@ -18,7 +18,7 @@ def main():
     
     b = TransformBroadcaster()
     
-    translation = (1.0, 2.0, 3.0)
+    translation = (0.0, 0.0, 0.0)
     rotation = (0.0, 0.0, 0.0, 1.0)
     rate = rospy.Rate(15)  # 5hz
     
@@ -39,9 +39,4 @@ def main():
 
 
 if __name__ == '__main__':
-    #main()
-    while(1):
-        h=tello.get_height()
-        if (not h==0):
-            print(h)
-        time.sleep(0.2)
+    main()

@@ -3,15 +3,14 @@
 import math
 import rospy
 from thesis_drone.msg import drone_pose 
-from Drone_Pose_Estimation import pose_extractor
+from Drone_Pose_Estimation import pose_extractor,pose_extractor_CV_techniques
 from tf import transformations
-
 from visualization_msgs.msg import Marker
-
 from math import pi
 
-CAMERA_HEIGHT=10
-
+CAMERA_HEIGHT = 10
+USE_ARUCO = 0
+USB_CAM=1
 class DroneMarker(Marker):
     def __init__(self,pos=[0,0,0],rpy=[0,0,0]):
         super().__init__()
@@ -62,12 +61,17 @@ def main():
     robotMarker=DroneMarker()
     
     #addBox()
-    pose_estimator=pose_extractor(USB_cam=0)
+    if USE_ARUCO:
+        pose_estimator=pose_extractor(USB_cam=USB_CAM)
+    else:
+        pose_estimator=pose_extractor_CV_techniques(USB_cam=USB_CAM)
+
     while not rospy.is_shutdown():
         tvec,rpy,found_pose=pose_estimator.getPose()
 
         if found_pose:
             x,y,z=tvec[0][0][0],tvec[0][0][1],tvec[0][0][2]
+            print(z)
             scale_div=10
             x,y,z = -x/scale_div,-y/scale_div,CAMERA_HEIGHT-z/scale_div
             pos=[x,y,z]

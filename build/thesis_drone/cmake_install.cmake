@@ -112,3 +112,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/thesis_drone" TYPE PROGRAM FILES "/home/marios/catkin_ws/build/thesis_drone/catkin_generated/installspace/obs_generation.py")
 endif()
 
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/thesis_drone" TYPE PROGRAM FILES "/home/marios/catkin_ws/build/thesis_drone/catkin_generated/installspace/tello.py")
+endif()
+

@@ -31,6 +31,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/home/marios/catkin_ws/src/thesis_drone/scripts/obs_generation.py"
   "/home/marios/catkin_ws/src/thesis_drone/scripts/path_planning.py"
   "/home/marios/catkin_ws/src/thesis_drone/scripts/rviz_visual.py"
+  "/home/marios/catkin_ws/src/thesis_drone/scripts/tello.py"
   "/home/marios/catkin_ws/src/thesis_drone/setup.py"
   "/opt/ros/noetic/share/catkin/cmake/all.cmake"
   "/opt/ros/noetic/share/catkin/cmake/assert.cmake"

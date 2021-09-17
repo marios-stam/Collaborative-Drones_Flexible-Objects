@@ -7,10 +7,15 @@ from Drone_Pose_Estimation import pose_extractor,pose_extractor_CV_techniques
 from tf import transformations
 from visualization_msgs.msg import Marker
 from math import pi
+import tf
+import os,sys
+curr_folder=os.path.dirname(os.path.realpath(__file__))
+print ("current file:",curr_folder)
+sys.path.append(curr_folder)
+from GLOBAL_PARAMETERS import CAMERA_HEIGHT,USB_CAM,USE_ARUCO,CONTOUR_AREA_THRESHOLD
 
-CAMERA_HEIGHT = 10
-USE_ARUCO = 0
-USB_CAM=1
+
+
 class DroneMarker(Marker):
     def __init__(self,pos=[0,0,0],rpy=[0,0,0]):
         super().__init__()
@@ -64,14 +69,21 @@ def main():
     if USE_ARUCO:
         pose_estimator=pose_extractor(USB_cam=USB_CAM)
     else:
-        pose_estimator=pose_extractor_CV_techniques(USB_cam=USB_CAM)
-
+        pose_estimator=pose_extractor_CV_techniques(camera_height=CAMERA_HEIGHT,
+                                                    contour_area_thresh=CONTOUR_AREA_THRESHOLD,USB_cam=USB_CAM)
+        listener = tf.TransformListener()
+    
     while not rospy.is_shutdown():
+        try:
+            (trans,rot) = listener.lookupTransform('/world', 'tello', rospy.Time(0))
+            pose_estimator.update_actual_height(trans[2])
+        except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
+            pass
+        
         tvec,rpy,found_pose=pose_estimator.getPose()
 
         if found_pose:
             x,y,z=tvec[0][0][0],tvec[0][0][1],tvec[0][0][2]
-            print(z)
             scale_div=10
             x,y,z = -x/scale_div,-y/scale_div,CAMERA_HEIGHT-z/scale_div
             pos=[x,y,z]
