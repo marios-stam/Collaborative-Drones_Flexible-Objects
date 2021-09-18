@@ -3,6 +3,8 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 from .dijkstra_search import DijkstraSearch
+# from dijkstra_search import DijkstraSearch
+
 from scipy.spatial import cKDTree, Voronoi
 #constants
 CYLINDER = 3
@@ -46,7 +48,7 @@ class VoronoiRoadMapPlanner:
         ]
         self.setupLimits()
 
-        #self.addObstacles(obs_setup)
+        self.addObstacles(obs_setup) #uncomment this only while debugging
 
         if self.show_animation:
             plt.plot(self.ox, self.oy, ".k")
@@ -114,7 +116,8 @@ class VoronoiRoadMapPlanner:
 
         road_map_info = self.generate_road_map_info(
             sample_x, sample_y, robot_radius, obstacle_tree)
-        
+        print("xexe")
+        # self.plot_road_map(road_map_info, sample_x, sample_y)
         rx, ry = DijkstraSearch( self.show_animation ).search(sx, sy, gx, gy,
                                                        sample_x, sample_y,
                                                        road_map_info)
@@ -222,5 +225,5 @@ class VoronoiRoadMapPlanner:
         return sample_x, sample_y
 
 if __name__=="__main__":
-    planner = VoronoiRoadMapPlanner()
+    planner = VoronoiRoadMapPlanner(show_animation=True)
     planner.planning()
