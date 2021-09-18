@@ -42,6 +42,9 @@ if __name__ == '__main__':
     #main()
     while(1):
         h=tello.get_height()
+        rpy = tello.get_roll(),tello.get_pitch(),tello.get_yaw()
         if (not h==0):
-            print(h)
-        time.sleep(0.2)
+            print("h:",h)
+        print("rpy:",rpy)
+        
+        time.sleep(1/5)

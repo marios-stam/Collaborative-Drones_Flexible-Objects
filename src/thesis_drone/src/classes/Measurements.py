@@ -5,9 +5,9 @@ from geometry_msgs.msg import Point
 from scipy.spatial import distance
 from tf import transformations
 from scipy.spatial.transform import Rotation
-
 from Geometry_functions import  intersections3D
- 
+
+DEBUG_MODE=0
 class DroneMeasurements:
     def __init__(self,init_pos,obs_dist_publisher : rospy.Publisher) -> None:
         self.DIST_THRESHOLD=0.2#minimum distance in order to update distance travelled
@@ -91,14 +91,15 @@ class DroneMeasurements:
                 distances_per_direction.append( [int_point,dist_min] )
             
         self.int_points_and_distances_per_direction=distances_per_direction
-        print(distances_per_direction)
+        # print(distances_per_direction)
         self.visualise_distances()
     
     def visualise_distances(self):
         int_points=[i[0] for i in self.int_points_and_distances_per_direction] 
-        print("==========visualising===================")
-        for i in int_points:
-            print(i)
+        if DEBUG_MODE:
+            print("==========visualising===================")
+            for i in int_points:
+                print(i)
 
         markers_array = Obstacle_Distances_Lines(self.curr_position,int_points)
         self.obs_dist_publisher.publish( markers_array )
@@ -135,7 +136,7 @@ class DroneMeasurements:
         self.orientation_quat = drone_mark.pose.orientation
         q=self.orientation_quat
         q=[q.x,q.y,q.z,q.w]
-        print(q)
+        # print(q)
         rpy = transformations.euler_from_quaternion(q)
         self.orientation=rpy
 

@@ -3,16 +3,26 @@
 import math
 import rospy
 from thesis_drone.msg import drone_pose 
-from Drone_Pose_Estimation import pose_extractor,pose_extractor_CV_techniques
+
 from tf import transformations
 from visualization_msgs.msg import Marker
 from math import pi
 import tf
 import os,sys
+
 curr_folder=os.path.dirname(os.path.realpath(__file__))
 print ("current file:",curr_folder)
 sys.path.append(curr_folder)
 from GLOBAL_PARAMETERS import CAMERA_HEIGHT,USB_CAM,USE_ARUCO,CONTOUR_AREA_THRESHOLD
+
+if USE_ARUCO:
+    from Drone_Pose_Estimation import pose_extractor
+else:
+    from Drone_Pose_Estimation import pose_extractor_CV_techniques
+
+
+
+
 
 
 
@@ -74,11 +84,13 @@ def main():
         listener = tf.TransformListener()
     
     while not rospy.is_shutdown():
-        try:
-            (trans,rot) = listener.lookupTransform('/world', 'tello', rospy.Time(0))
-            pose_estimator.update_actual_height(trans[2])
-        except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
-            pass
+        if not USE_ARUCO:
+            try:
+                (trans,rot) = listener.lookupTransform('/world', 'tello', rospy.Time(0))
+                pose_estimator.update_actual_height(trans[2])
+                pose_estimator.update_rpy(rot)
+            except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
+                pass
         
         tvec,rpy,found_pose=pose_estimator.getPose()
 
