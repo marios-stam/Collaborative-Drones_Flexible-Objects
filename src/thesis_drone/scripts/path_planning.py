@@ -9,7 +9,7 @@ from geometry_msgs.msg import PoseStamped
 from path_planning import VoronoiRoadMapPlanner
 import tf
 
-planner = VoronoiRoadMapPlanner(show_animation=True)
+planner = VoronoiRoadMapPlanner(show_animation=False)
 path_publisher = rospy.Publisher('/path', Path, queue_size=10)
 
 def callbackLims(markArr:MarkerArray):

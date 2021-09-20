@@ -111,12 +111,11 @@ class VoronoiRoadMapPlanner:
         obstacle_tree = cKDTree(np.vstack((ox, oy)).T)
 
         sample_x, sample_y = self.voronoi_sampling(sx, sy, gx, gy, ox, oy)
-        if  self.show_animation :  # pragma: no cover
+        if  self.show_animation :  
             plt.plot(sample_x, sample_y, ".b")
 
         road_map_info = self.generate_road_map_info(
             sample_x, sample_y, robot_radius, obstacle_tree)
-        print("xexe")
         # self.plot_road_map(road_map_info, sample_x, sample_y)
         rx, ry = DijkstraSearch( self.show_animation ).search(sx, sy, gx, gy,
                                                        sample_x, sample_y,

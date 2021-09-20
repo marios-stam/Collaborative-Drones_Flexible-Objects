@@ -20,12 +20,6 @@ if USE_ARUCO:
 else:
     from Drone_Pose_Estimation import pose_extractor_CV_techniques
 
-
-
-
-
-
-
 class DroneMarker(Marker):
     def __init__(self,pos=[0,0,0],rpy=[0,0,0]):
         super().__init__()

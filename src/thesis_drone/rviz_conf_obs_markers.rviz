@@ -11,6 +11,7 @@ Panels:
         - /MarkerArray1
         - /MarkerArray2
         - /Path1
+        - /MarkerArray3
       Splitter Ratio: 0.5
     Tree Height: 719
   - Class: rviz/Selection
@@ -62,7 +63,7 @@ Visualization Manager:
       Marker Topic: robotMarker
       Name: Marker
       Namespaces:
-        robot: true
+        {}
       Queue Size: 100
       Value: true
     - Class: rviz/MarkerArray
@@ -113,6 +114,14 @@ Visualization Manager:
       Shaft Length: 0.10000000149011612
       Topic: path
       Unreliable: false
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: obs_distances_array
+      Name: MarkerArray
+      Namespaces:
+        {}
+      Queue Size: 100
       Value: true
   Enabled: true
   Global Options:
@@ -179,4 +188,4 @@ Window Geometry:
     collapsed: false
   Width: 1848
   X: 72
-  Y: 27
+  Y: 130
