@@ -63,7 +63,7 @@ Visualization Manager:
       Marker Topic: robotMarker
       Name: Marker
       Namespaces:
-        {}
+        robot: true
       Queue Size: 100
       Value: true
     - Class: rviz/MarkerArray
@@ -120,7 +120,11 @@ Visualization Manager:
       Marker Topic: obs_distances_array
       Name: MarkerArray
       Namespaces:
-        {}
+        dist_0: true
+        dist_1: true
+        dist_2: true
+        dist_3: true
+        dist_4: true
       Queue Size: 100
       Value: true
   Enabled: true
@@ -151,7 +155,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 9.037631034851074
+      Distance: 14.186116218566895
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -167,9 +171,9 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.36479651927948
+      Pitch: 0.8847969770431519
       Target Frame: <Fixed Frame>
-      Yaw: 4.705338954925537
+      Yaw: 4.83035135269165
     Saved: ~
 Window Geometry:
   Displays:
