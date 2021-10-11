@@ -72,14 +72,15 @@ def getCatenaryCurve3D(P1, P2, L):
 
     start = [0, 0, 0]
     xs2D, ys2D = getCatenaryCurve2D(start[:2], p2_1[:2], L)
-    print(xs2D)
-    print(ys2D)
+    # print(xs2D)
+    # print(ys2D)
 
     plt.plot(xs2D, ys2D)
 
 
 if __name__ == "__main__":
-    # xs, ys = getCatenaryCurve2D(P1, P2, L)
+    # xs, ys = getCatenaryCurve2D([0, 0], [0.5, 1], 2)
+    # plt.plot(xs, ys)
     P1 = np.array([1, 1, 0])
     P2 = np.array([2, 2, 0])
     L = 2
