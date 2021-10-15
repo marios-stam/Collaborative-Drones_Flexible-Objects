@@ -50,12 +50,23 @@ def trig(theta):
     return math.cos(theta), math.sin(theta), math.tan(theta)
 
 
+def calculate2DAngleBetweenPoints(p1, p2):
+    x1, y1, z1 = p1
+    x2, y2, z2 = p2
+
+    dx = x2-x1
+    dy = y2-y1
+
+    angle = math.atan2(dy, dx)
+    return angle
+
+
 class Transformation():
     def __init__(self, rotation, translation) -> None:
         self.matrix = getTransformationMatrix(rotation, translation)
         self.inv_matrix = np.linalg.inv(self.matrix)
 
-        print(np.dot(self.inv_matrix, self.matrix))
+        # print(np.dot(self.inv_matrix, self.matrix))
 
     def transformPoint(self, p):
         if len(p) == 3:

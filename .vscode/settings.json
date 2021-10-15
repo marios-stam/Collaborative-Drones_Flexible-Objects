@@ -8,5 +8,6 @@
         "/opt/ros/noetic/lib/python3/dist-packages",
         "./src/thesis_drone/src",
         "./src/thesis_drone/src"
-    ]
+    ],
+    "cmake.configureOnOpen": false
 }

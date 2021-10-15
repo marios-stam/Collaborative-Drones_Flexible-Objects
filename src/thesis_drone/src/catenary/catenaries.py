@@ -1,7 +1,8 @@
-from math_utils import Transformation, sqrt, sinh, cosh, tanhi
+from math_utils import Transformation, calculate2DAngleBetweenPoints, sqrt, sinh, cosh, tanhi
 import math
 import numpy as np
 import matplotlib.pyplot as plt
+from projection import get2DProjection
 
 DEBUG = 1
 
@@ -55,34 +56,31 @@ def getCatenaryCurve2D(P1, P2, L):
 
 
 def getCatenaryCurve3D(P1, P2, L):
-    x1, y1, z1 = P1
-    x2, y2, z2 = P2
+    angle = calculate2DAngleBetweenPoints(P1, P2)
+    rotation = [0, 0, math.degrees(-angle)]
 
-    dx = x2-x1
-    dy = y2-y1
-
-    angle = math.atan2(dy, dx)
-
-    print("angle in degrees:", math.degrees(angle))
-
-    rotation = [0, 0, math.degrees(angle)]
     trans = Transformation(rotation, translation=P1)
-
     p2_1 = trans.transformPoint(P2)
 
-    start = [0, 0, 0]
-    xs2D, ys2D = getCatenaryCurve2D(start[:2], p2_1[:2], L)
-    # print(xs2D)
-    # print(ys2D)
+    s, coords2D_x, coords2D_y = get2DProjection(list(P1), list(P2))
+
+    start2D = [0, 0]
+    ennd2D = [coords2D_x, coords2D_y]
+    xs2D, ys2D = getCatenaryCurve2D(start2D, ennd2D, L)
+
+    start3D = trans.inverseTransformPoint([start2D[0], 0, start2D[1]])
+    end3D = trans.inverseTransformPoint([ennd2D[0], 0, ennd2D[1]])
+
+    print("coords2D:", coords2D_x, coords2D_y)
+    print("start3D:", start3D)
+    print("end3D:", end3D)
 
     plt.plot(xs2D, ys2D)
 
 
 if __name__ == "__main__":
-    # xs, ys = getCatenaryCurve2D([0, 0], [0.5, 1], 2)
-    # plt.plot(xs, ys)
     P1 = np.array([1, 1, 0])
-    P2 = np.array([2, 2, 0])
-    L = 2
+    P2 = np.array([2, 2, 1])
+    L = 4
     getCatenaryCurve3D(P1, P2, L)
     plt.show()
