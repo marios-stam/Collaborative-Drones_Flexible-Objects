@@ -16,9 +16,9 @@ class Catenaries_Handler(Marker):
             self.catenaries_array = Catenary_Marker_Array(
                 start_end_points_and_lenghts)
 
-    def update(self, start_end_points_and_lenghts):
-        self.catenaries_array = Catenary_Marker_Array(
-            start_end_points_and_lenghts)
+    def update(self, index, start_end_points_and_lenghts):
+        p1, p2, L = start_end_points_and_lenghts[index]
+        self.catenaries_array.update_curve(index, p1, p2, L)
 
     def visusalise(self):
         self.publisher.publish(self.catenaries_array)
@@ -41,7 +41,7 @@ class Catenary_Marker(Marker):
         self.ns = name
         self.id = 0
 
-        self.lifetime = rospy.Duration(10)
+        self.lifetime = rospy.Duration(secs=1, nsecs=0)
         # marker scale
         scale = 0.05
         self.scale.x = scale
@@ -67,14 +67,8 @@ class Catenary_Marker(Marker):
 
         # marker line points
         points = catenaries.getCatenaryCurve3D(p1, p2, L)
-        self.points = []
-        for p in points:
-            pp = Point()
-            pp.x = p[0]
-            pp.y = p[1]
-            pp.z = p[2]
-
-            self.points.append(pp)
+        points = map(lambda p: Point(p[0], p[1], p[2]), points)
+        self.points = list(points)
 
 
 class Catenary_Marker_Array(MarkerArray):
@@ -94,3 +88,8 @@ class Catenary_Marker_Array(MarkerArray):
     def add_curve(self, p1, p2, L):
         caten_marker = Catenary_Marker(p1, p2, L)
         self.markers.append(caten_marker)
+
+    def update_curve(self, index, p1, p2, L):
+        points = catenaries.getCatenaryCurve3D(p1, p2, L)
+        points = map(lambda p: Point(p[0], p[1], p[2]), points)
+        self.markers[index].points = list(points)

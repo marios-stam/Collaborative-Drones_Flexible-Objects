@@ -3,6 +3,7 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+from geometry_msgs.msg import Point
 
 from .math_utils import Transformation, calculate2DAngleBetweenPoints, sqrt, sinh, cosh, tanhi
 from .projection import get2DProjection
@@ -32,11 +33,11 @@ def getCatenaryCurve2D(P1, P2, L):
 
     # rA=sinh(A)
 
-    A = 0.01
-    dA = 0.0001
+    A = 0.01*1
+    dA = 0.0001*1
     left = r*A
     right = sinh(A)
-    # print(left,right)
+    # print(left, right)
 
     while left >= right:
         left = r*A
@@ -44,20 +45,30 @@ def getCatenaryCurve2D(P1, P2, L):
         A = A+dA
 
     A = A-dA
-
+    if A == 0:
+        print("Opa A=0")
     a = dx/(2*A)
     b = xb-a*tanhi(dy/L)
     c = y1-a*cosh((x1-b)/a)
 
-    xs, ys = [], []
     x = x1
-    ddx = 0.001
+    ddx = 0.001*1
+    length = (x2-x1)/ddx+1
+    xy = np.zeros((int(length), 2), dtype=np.float64)
+    counter = 0
     while x < x2:
         y = a*cosh((x-b)/a)+c
-        xs.append(x)
-        ys.append(y)
+        xy[counter] = [x, y]
         x = x+ddx
-    return xs, ys
+        counter = counter+1
+
+    if xy[-1][0] == 0 and xy[-1][1] == 0:
+        print("mlkia:", length)
+        xy = xy[:-1, :]  # delete last row
+    else:
+        pass
+
+    return xy
 
 
 def getCatenaryCurve3D(P1, P2, L):
@@ -71,7 +82,7 @@ def getCatenaryCurve3D(P1, P2, L):
 
     start2D = [0, 0]
     ennd2D = [coords2D_x, coords2D_y]
-    xs2D, ys2D = getCatenaryCurve2D(start2D, ennd2D, L)
+    points2D = getCatenaryCurve2D(start2D, ennd2D, L)
 
     start3D = trans.inverseTransformPoint([start2D[0], 0, start2D[1]])
     end3D = trans.inverseTransformPoint([ennd2D[0], 0, ennd2D[1]])
@@ -80,31 +91,26 @@ def getCatenaryCurve3D(P1, P2, L):
         print("start3D:", start3D)
         print("end3D:", end3D)
 
-    # plt.plot(xs2D, ys2D)
+    # Points3D = map(
+    #     lambda point: trans.inverseTransformPoint([point[0], 0, point[1]]), points2D)
+    # Points3D = np.array(list(Points3D))
 
-    Points3D = np.array([[None, None, None]]*len(xs2D))
-    X, Y, Z = [], [], []
-    for i in range(len(xs2D)):
-        Point3D = trans.inverseTransformPoint([xs2D[i], 0, ys2D[i]])
-        Points3D[i] = Point3D[:3]
-        X.append(Points3D[i][0])
-        Y.append(Points3D[i][1])
-        Z.append(Points3D[i][2])
-
+    Points3D = [trans.inverseTransformPoint([p[0], 0, p[1]]) for p in points2D]
     if PLOT:
         # plotting a scatter for example
         fig = plt.figure()
         ax = fig.add_subplot(111, projection="3d")
-        ax.plot(X, Y, Z)
+        Points3D = np.array(Points3D)
+        ax.plot(Points3D[:, 0], Points3D[:, 1], Points3D[:, 2])
 
     return Points3D
 
 
 if __name__ == "__main__":
-    P1 = np.array([1, 1, 0])
-    P2 = np.array([2, 2, 0])
-    L = 4
+    P1 = np.array([0, 0, 0])
+    P2 = np.array([2, 0, 0])
+    L = 3
     points = getCatenaryCurve3D(P1, P2, L)
     print(type(points))
-    print(points.shape)
+    # print(points.shape)
     plt.show()
