@@ -88,8 +88,6 @@ if __name__ == "__main__":
     translation = np.array([1, 1, 0])
     rotation = np.array([0, 0, 45])
 
-    L = 0.65
-
     trans = Transformation(rotation, translation)
     p2_1 = trans.transformPoint(P2)
     p1_2 = trans.inverseTransformPoint(p2_1)

@@ -1,5 +1,5 @@
 from sympy.geometry.point import Point2D
-import math
+from math import log, degrees, e
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -33,18 +33,26 @@ def getCatenaryCurve2D(P1, P2, L):
 
     # rA=sinh(A)
 
-    A = 0.01*1
-    dA = 0.0001*1
-    left = r*A
-    right = sinh(A)
-    # print(left, right)
+    if 2*r/e < 1:
+        if r < 3:
+            Ai = sqrt(6*(r-1))
+        else:
+            Ai = log(2*r)+log(log(2*r))
 
-    while left >= right:
-        left = r*A
-        right = sinh(A)
-        A = A+dA
+        max_error = 0.001
+        counter = 0
+        while r-sinh(Ai)/Ai > max_error:
+            num = sinh(Ai)-r*Ai
+            denum = cosh(Ai)-r
+            A_i = A_i-num/denum
+            counter = counter + 1
+        # print("Converged in {} loops".format(counter))
+        A = Ai
+    else:
+        A_approx = 0.25 * (1+3*log(2*r))+sqrt(2*log(2*r/e))
+        A = A_approx
+        # print("A_approx:", A_approx)
 
-    A = A-dA
     if A == 0:
         print("Opa A=0")
     a = dx/(2*A)
@@ -52,7 +60,7 @@ def getCatenaryCurve2D(P1, P2, L):
     c = y1-a*cosh((x1-b)/a)
 
     x = x1
-    ddx = 0.001*1
+    ddx = 0.01*1
     length = (x2-x1)/ddx+1
     xy = np.zeros((int(length), 2), dtype=np.float64)
     counter = 0
@@ -73,7 +81,7 @@ def getCatenaryCurve2D(P1, P2, L):
 
 def getCatenaryCurve3D(P1, P2, L):
     angle = calculate2DAngleBetweenPoints(P1, P2)
-    rotation = [0, 0, math.degrees(-angle)]
+    rotation = [0, 0, degrees(-angle)]
 
     trans = Transformation(rotation, translation=P1)
     p2_1 = trans.transformPoint(P2)

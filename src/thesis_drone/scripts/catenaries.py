@@ -43,7 +43,7 @@ def main():
     cat_handler = Catenaries.Catenaries_Handler(
         catenary_mark_array_pub, start_end_points_and_lenghts)
 
-    rate = rospy.Rate(20)  # hz
+    rate = rospy.Rate(4)  # hz
     t_begin = rospy.Time.now()
 
     while not rospy.is_shutdown():
