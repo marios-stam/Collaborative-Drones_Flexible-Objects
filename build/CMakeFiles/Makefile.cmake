@@ -27,6 +27,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/home/marios/catkin_ws/src/catkin_simple/package.xml"
   "/home/marios/catkin_ws/src/thesis_drone/CMakeLists.txt"
   "/home/marios/catkin_ws/src/thesis_drone/package.xml"
+  "/home/marios/catkin_ws/src/thesis_drone/scripts/catenaries.py"
   "/home/marios/catkin_ws/src/thesis_drone/scripts/measurements.py"
   "/home/marios/catkin_ws/src/thesis_drone/scripts/obs_generation.py"
   "/home/marios/catkin_ws/src/thesis_drone/scripts/path_planning.py"

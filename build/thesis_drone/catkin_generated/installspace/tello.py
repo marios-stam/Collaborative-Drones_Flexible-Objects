@@ -6,7 +6,7 @@ from djitellopy import Tello
 from tf import TransformBroadcaster,transformations
 from rospy import Time 
 import numpy as np
-
+import time
 tello = Tello()
 
 tello.connect()
@@ -18,7 +18,7 @@ def main():
     
     b = TransformBroadcaster()
     
-    translation = (0.0, 0.0, 0.0)
+    translation = (1.0, 2.0, 3.0)
     rotation = (0.0, 0.0, 0.0, 1.0)
     rate = rospy.Rate(15)  # 5hz
     
@@ -39,4 +39,12 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    #main()
+    while(1):
+        h=tello.get_height()
+        rpy = tello.get_roll(),tello.get_pitch(),tello.get_yaw()
+        if (not h==0):
+            print("h:",h)
+        print("rpy:",rpy)
+        
+        time.sleep(1/5)

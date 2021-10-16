@@ -167,7 +167,8 @@ catkin_install_python(PROGRAMS
   scripts/measurements.py
   scripts/obs_generation.py
   scripts/tello.py
-  
+  scripts/catenaries.py
+
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

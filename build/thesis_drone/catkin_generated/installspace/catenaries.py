@@ -9,25 +9,25 @@ from scipy.spatial import distance
 from tf import transformations
 from scipy.spatial.transform import Rotation
 
+from classes import Catenaries
 
-from classes import DroneMeasurements
+catenary_mark_array_pub = rospy.Publisher(
+    'catenary',  MarkerArray, queue_size=10)
 
-initial_position = [0.2, -0.1, 0]
 
-obs_distMarkPub = rospy.Publisher(
-    'obs_distances_array',  MarkerArray, queue_size=10)
-measurements = DroneMeasurements(initial_position, obs_distMarkPub)
+start_end_points_and_lenghts = [
+    [[1, 1, 0], [2, 2, 1], 3]
+]
+cat_handler = Catenaries.Catenaries_Handler(start_end_points_and_lenghts)
+cat_handler.visusalise()
 
 
 def listener():
-    node_name = 'measurements'
+    node_name = 'catenaries'
     rospy.init_node(node_name, anonymous=False)
 
-    topic_name = 'robotMarker'
-    rospy.Subscriber(topic_name, Marker, measurements.update__drone_pose)
-
-    topic_name = 'obsMarkers_array'
-    rospy.Subscriber(topic_name, MarkerArray, measurements.update_obstacles)
+    # topic_name = 'catenary_end'
+    # rospy.Subscriber(topic_name, Marker, )
 
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()

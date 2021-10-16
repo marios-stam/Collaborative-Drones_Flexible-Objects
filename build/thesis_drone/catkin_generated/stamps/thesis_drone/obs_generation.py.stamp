@@ -18,7 +18,7 @@ obs_setup=[
     (  2, 2,0,Marker.CYLINDER ),
     (  2, 0,0,Marker.CYLINDER ),
     (  2,-2,0,Marker.CYLINDER ),
-    (  -2,-2,0,Marker.CYLINDER ),
+    # (  -2,-2,0,Marker.CYLINDER ),
 
     (  3,-4,0,Marker.SPHERE ),
     (  4,-3,0,Marker.SPHERE ),

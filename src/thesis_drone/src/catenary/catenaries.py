@@ -1,12 +1,15 @@
 from sympy.geometry.point import Point2D
-from math_utils import Transformation, calculate2DAngleBetweenPoints, sqrt, sinh, cosh, tanhi
 import math
 import numpy as np
 import matplotlib.pyplot as plt
-from projection import get2DProjection
 from mpl_toolkits.mplot3d import Axes3D
 
-DEBUG = 1
+from .math_utils import Transformation, calculate2DAngleBetweenPoints, sqrt, sinh, cosh, tanhi
+from .projection import get2DProjection
+
+
+DEBUG = 0
+PLOT = 0
 
 
 def getCatenaryCurve2D(P1, P2, L):
@@ -72,10 +75,10 @@ def getCatenaryCurve3D(P1, P2, L):
 
     start3D = trans.inverseTransformPoint([start2D[0], 0, start2D[1]])
     end3D = trans.inverseTransformPoint([ennd2D[0], 0, ennd2D[1]])
-
-    print("coords2D:", coords2D_x, coords2D_y)
-    print("start3D:", start3D)
-    print("end3D:", end3D)
+    if DEBUG:
+        print("coords2D:", coords2D_x, coords2D_y)
+        print("start3D:", start3D)
+        print("end3D:", end3D)
 
     # plt.plot(xs2D, ys2D)
 
@@ -88,12 +91,12 @@ def getCatenaryCurve3D(P1, P2, L):
         Y.append(Points3D[i][1])
         Z.append(Points3D[i][2])
 
-    print(Points3D[10])
+    if PLOT:
+        # plotting a scatter for example
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection="3d")
+        ax.plot(X, Y, Z)
 
-    # plotting a scatter for example
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection="3d")
-    ax.plot(X, Y, Z)
     return Points3D
 
 

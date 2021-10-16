@@ -40,7 +40,7 @@ def getTransformationMatrix(rotation, translation):
     Rz = transformations.rotation_matrix(math.radians(rotation[2]), zaxis)
     R = transformations.concatenate_matrices(Rx, Ry, Rz)
 
-    T = transformations.translation_matrix(-translation)
+    T = transformations.translation_matrix(-np.array(translation))
     M = transformations.concatenate_matrices(R, T)
 
     return M
