@@ -13,26 +13,10 @@ DEBUG = 0
 PLOT = 0
 
 
-def getCatenaryCurve2D(P1, P2, L):
-    if DEBUG:
-        print("Getting Catenary2D...")
-        print("P1:", P1)
-        print("P2:", P2)
-        print("L :", L)
-
-    x1, y1 = P1
-    x2, y2 = P2
-
-    dx = x2-x1
-    dy = y2-y1
-
-    xb = (x1+x2)/2
-    yb = (x1+x2)/2
-
-    r = sqrt(L**2-dy**2)/dx
-
-    # rA=sinh(A)
-
+def approximateAnumerically(r):
+    """
+    Solving equation r*A-sinh(A)=0 numerically
+    """
     if 2*r/e < 1:
         if r < 3:
             Ai = sqrt(6*(r-1))
@@ -53,6 +37,37 @@ def getCatenaryCurve2D(P1, P2, L):
         A = A_approx
         # print("A_approx:", A_approx)
 
+    return A
+
+
+def getCatenaryCurve2D(P1, P2, L):
+    """
+        Based on https://math.stackexchange.com/questions/3557767/how-to-construct-a-catenary-of-a-specified-length-through-two-specified-points
+        P1:point 1
+        P2:point 2
+        L:Length of rope
+    """
+    if DEBUG:
+        print("Getting Catenary2D...")
+        print("P1:", P1)
+        print("P2:", P2)
+        print("L :", L)
+
+    x1, y1 = P1
+    x2, y2 = P2
+
+    dx = x2-x1
+    dy = y2-y1
+
+    xb = (x1+x2)/2
+    yb = (x1+x2)/2
+
+    assert L**2 > dy**2+dx**2, "No solution,the points are too far apart"
+
+    r = sqrt(L**2-dy**2)/dx
+
+    # rA=sinh(A)
+    A = approximateAnumerically(r)
     if A == 0:
         print("Opa A=0")
     a = dx/(2*A)
@@ -112,6 +127,24 @@ def getCatenaryCurve3D(P1, P2, L):
         ax.plot(Points3D[:, 0], Points3D[:, 1], Points3D[:, 2])
 
     return Points3D
+
+
+def calculateForcesOnEnds(mass, x1, x2, L, n=2):
+    g = 9.8
+    Tz = mass*g/n
+
+    x0 = (x1+x2)/n
+    """
+    The equation L=a*sinh(x0/a) must be solved ,in order to find a
+    So approximateAnumerically(r) could be used 
+    with r=L/x0 and A=x0/a 
+    and a=x0/A
+    """
+    r = L/x0
+    A = approximateAnumerically(r)
+    a = x0/A
+
+    Tx = Tz * (a/L)
 
 
 if __name__ == "__main__":
