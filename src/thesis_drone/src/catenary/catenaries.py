@@ -126,7 +126,7 @@ def getCatenaryCurve3D(P1, P2, L, ax=None):
     return Points3D
 
 
-def getForcesOnEnds2D(mass, x1, x2, L, n=2):
+def getForcesOnEnds2D(mass, x1, x2, L, n=2, forceOnP2=False):
     """
     Based on "Decentralized collaborative transport of fabrics using micro-UAVs"
     https://www.researchgate.net/publication/335144536_Decentralized_collaborative_transport_of_fabrics_using_micro-UAVs
@@ -147,10 +147,13 @@ def getForcesOnEnds2D(mass, x1, x2, L, n=2):
 
     Tx = Tz * (a/L)
 
-    return Tx, Tz
+    if forceOnP2:
+        return -Tx, -Tz
+    else:
+        return Tx, -Tz
 
 
-def getForcesOnEnds3D(mass, p1, p2, L, n=2):
+def getForcesOnEnds3D(mass, p1, p2, L, n=2, forceOnP2=False):
     angle = calculate2DAngleBetweenPoints(P1, P2)
     rotation = [0, 0, degrees(-angle)]
 
@@ -160,9 +163,13 @@ def getForcesOnEnds3D(mass, p1, p2, L, n=2):
     s, coords2D_x, coords2D_y = get2DProjection(list(P1), list(P2))
     print(coords2D_x, coords2D_y)
 
-    Force2Dx, Force2Dz = getForcesOnEnds2D(mass, 0, coords2D_x, L, n=2)
+    Force2Dx, Force2Dz = getForcesOnEnds2D(
+        mass, 0, coords2D_x, L, n=2, forceOnP2=forceOnP2)
 
-    Force3D = trans.inverseTransformPoint([Force2Dx, 0, -Force2Dz])
+    Force3D = trans.inverseTransformPoint([Force2Dx, 0, Force2Dz])
+    if forceOnP2:
+        Force3D[0] = -Force3D[0]
+        Force3D[1] = -Force3D[1]
 
     if DEBUG:
         print("Force3D:", Force3D)
@@ -189,9 +196,11 @@ if __name__ == "__main__":
     # Tz, Tx = getForcesOnEnds2D(1, P1[0], P2[0], L, n=2)
     # print("Tz:{}    Tx:{}".format(Tz, Tx))
 
-    Force3D = getForcesOnEnds3D(1, P1, P2, L, n=2)
+    should_inv = 0
+    Force3D = getForcesOnEnds3D(1, P1, P2, L, n=2, forceOnP2=should_inv)
     # Force3D = normalize(Force3D)
-
-    ax.quiver(P1[0], P1[1], P1[2], Force3D[0], Force3D[1],
+    p = P1 if not should_inv else P2
+    ax.quiver(p[0], p[1], p[2], Force3D[0], Force3D[1],
               Force3D[2], length=0.1, color=(1, 0, 0, 1))
+
     plt.show()
