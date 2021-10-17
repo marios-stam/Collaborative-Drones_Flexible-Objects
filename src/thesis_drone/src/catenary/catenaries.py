@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from geometry_msgs.msg import Point
 
-from .math_utils import Transformation, calculate2DAngleBetweenPoints, sqrt, sinh, cosh, tanhi
-from .projection import get2DProjection
+from math_utils import Transformation, calculate2DAngleBetweenPoints, sqrt, sinh, cosh, tanhi
+from projection import get2DProjection, normalize
 
 
 DEBUG = 0
@@ -94,7 +94,7 @@ def getCatenaryCurve2D(P1, P2, L):
     return xy
 
 
-def getCatenaryCurve3D(P1, P2, L):
+def getCatenaryCurve3D(P1, P2, L, ax=None):
     angle = calculate2DAngleBetweenPoints(P1, P2)
     rotation = [0, 0, degrees(-angle)]
 
@@ -120,16 +120,17 @@ def getCatenaryCurve3D(P1, P2, L):
 
     Points3D = [trans.inverseTransformPoint([p[0], 0, p[1]]) for p in points2D]
     if PLOT:
-        # plotting a scatter for example
-        fig = plt.figure()
-        ax = fig.add_subplot(111, projection="3d")
         Points3D = np.array(Points3D)
         ax.plot(Points3D[:, 0], Points3D[:, 1], Points3D[:, 2])
 
     return Points3D
 
 
-def calculateForcesOnEnds(mass, x1, x2, L, n=2):
+def getForcesOnEnds2D(mass, x1, x2, L, n=2):
+    """
+    Based on "Decentralized collaborative transport of fabrics using micro-UAVs"
+    https://www.researchgate.net/publication/335144536_Decentralized_collaborative_transport_of_fabrics_using_micro-UAVs
+    """
     g = 9.8
     Tz = mass*g/n
 
@@ -146,12 +147,51 @@ def calculateForcesOnEnds(mass, x1, x2, L, n=2):
 
     Tx = Tz * (a/L)
 
+    return Tx, Tz
+
+
+def getForcesOnEnds3D(mass, p1, p2, L, n=2):
+    angle = calculate2DAngleBetweenPoints(P1, P2)
+    rotation = [0, 0, degrees(-angle)]
+
+    trans = Transformation(rotation, translation=P1)
+    p2_1 = trans.transformPoint(P2)
+
+    s, coords2D_x, coords2D_y = get2DProjection(list(P1), list(P2))
+    print(coords2D_x, coords2D_y)
+
+    Force2Dx, Force2Dz = getForcesOnEnds2D(mass, 0, coords2D_x, L, n=2)
+
+    Force3D = trans.inverseTransformPoint([Force2Dx, 0, -Force2Dz])
+
+    if DEBUG:
+        print("Force3D:", Force3D)
+
+    return Force3D
+
 
 if __name__ == "__main__":
-    P1 = np.array([0, 0, 0])
-    P2 = np.array([2, 0, 0])
+    DEBUG = 1
+    PLOT = 1
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    ax.set_xlabel('$X$', fontsize=20)
+    ax.set_ylabel('$Y$', fontsize=20)
+    ax.set_zlabel('$Z$', fontsize=20)
+
+    P1 = np.array([1, 1, 0])
+    P2 = np.array([2, 2, 0])
     L = 3
-    points = getCatenaryCurve3D(P1, P2, L)
+    points = getCatenaryCurve3D(P1, P2, L, ax)
     print(type(points))
-    # print(points.shape)
+    print(points.shape)
+
+    # Tz, Tx = getForcesOnEnds2D(1, P1[0], P2[0], L, n=2)
+    # print("Tz:{}    Tx:{}".format(Tz, Tx))
+
+    Force3D = getForcesOnEnds3D(1, P1, P2, L, n=2)
+    # Force3D = normalize(Force3D)
+
+    ax.quiver(P1[0], P1[1], P1[2], Force3D[0], Force3D[1],
+              Force3D[2], length=0.1, color=(1, 0, 0, 1))
     plt.show()
