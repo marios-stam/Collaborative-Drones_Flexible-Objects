@@ -15,7 +15,7 @@ catenary_mark_array_pub = rospy.Publisher(
     'catenaries_array',  MarkerArray, queue_size=10)
 
 start_point = [0, 0, 0]
-end_point = [2, 2, 1]
+end_point = [2, 0, 0]
 length = 3
 
 start_end_points_and_lenghts = [
@@ -43,7 +43,7 @@ def main():
     cat_handler = Catenaries.Catenaries_Handler(
         catenary_mark_array_pub, start_end_points_and_lenghts)
 
-    rate = rospy.Rate(60)  # hz
+    rate = rospy.Rate(4)  # hz
     t_begin = rospy.Time.now()
 
     while not rospy.is_shutdown():
@@ -52,10 +52,11 @@ def main():
 
         f = 0.05
         radius = 2
-        height = 1
-        x_end = radius * math.cos(2*math.pi*f*t)
-        y_end = radius * math.sin(2*math.pi*f*t)
-        z_end = height * math.sin(2*math.pi*f/2*t)
+        height = .5
+        x_end = 1-radius * math.cos(2*math.pi*f*t)
+        # y_end = radius * math.sin(2*math.pi*f*t)
+        y_end = 0
+        z_end = 0 * math.sin(2*math.pi*f*t)
 
         end_point = [x_end, y_end, z_end]
         start_end_points_and_lenghts[0][1] = end_point
