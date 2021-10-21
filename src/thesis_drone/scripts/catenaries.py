@@ -4,7 +4,7 @@ import math
 import rospy
 from rospy import topics
 from thesis_drone.msg import drone_pose
-from visualization_msgs.msg import Marker, MarkerArray
+from visualization_msgs.msg import Marker, MarkerArray, InteractiveMarkerFeedback
 from scipy.spatial import distance
 from tf import transformations
 from scipy.spatial.transform import Rotation
@@ -21,19 +21,6 @@ length = 3
 start_end_points_and_lenghts = [
     [start_point, end_point, length]
 ]
-
-
-# def listener():
-#     node_name = 'catenaries'
-#     rospy.init_node(node_name, anonymous=False)
-#     cat_handler.update(start_end_points_and_lenghts)
-#     cat_handler.visusalise()
-
-#     # topic_name = 'catenary_end'
-#     # rospy.Subscriber(topic_name, Marker, )
-
-#     # spin() simply keeps python from exiting until this node is stopped
-#     rospy.spin()
 
 
 def main():
@@ -65,6 +52,21 @@ def main():
         rate.sleep()
 
 
+def listener():
+    node_name = 'catenaries'
+    rospy.init_node(node_name, anonymous=False)
+
+    cat_handler = Catenaries.Catenaries_Handler(
+        catenary_mark_array_pub, start_end_points_and_lenghts)
+
+    topic_name = '/inter_marker/feedback'
+    rospy.Subscriber(topic_name, InteractiveMarkerFeedback,
+                     cat_handler.handleNewInterMarker)
+
+    # spin() simply keeps python from exiting until this node is stopped
+    rospy.spin()
+
+
 if __name__ == '__main__':
-    # listener()
-    main()
+    listener()
+    # main()

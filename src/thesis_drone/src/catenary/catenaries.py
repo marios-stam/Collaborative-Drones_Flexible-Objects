@@ -4,9 +4,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from geometry_msgs.msg import Point
+import time
 
-from math_utils import Transformation, calculate2DAngleBetweenPoints, sqrt, sinh, cosh, tanhi
-from projection import get2DProjection, normalize
+from .math_utils import Transformation, calculate2DAngleBetweenPoints, sqrt, sinh, cosh, tanhi
+from .projection import get2DProjection, normalize
 
 
 DEBUG = 0
@@ -178,8 +179,8 @@ def getForcesOnEnds3D(mass, p1, p2, L, n=2, forceOnP2=False):
 
 
 if __name__ == "__main__":
-    DEBUG = 1
-    PLOT = 1
+    DEBUG = 0
+    PLOT = 0
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     ax.set_xlabel('$X$', fontsize=20)
@@ -189,18 +190,27 @@ if __name__ == "__main__":
     P1 = np.array([1, 1, 0])
     P2 = np.array([2, 2, 0])
     L = 3
-    points = getCatenaryCurve3D(P1, P2, L, ax)
-    print(type(points))
-    print(points.shape)
 
-    # Tz, Tx = getForcesOnEnds2D(1, P1[0], P2[0], L, n=2)
-    # print("Tz:{}    Tx:{}".format(Tz, Tx))
+    dt_mean = 0
+    times = 100
+    for i in range(times):
+        start = time.time()
+        points = getCatenaryCurve3D(P1, P2, L, ax)
+        dt = time.time()-start
+        dt_mean += dt
+    print("dt_mean:", dt_mean/times*1000, "msec")
 
-    should_inv = 0
-    Force3D = getForcesOnEnds3D(1, P1, P2, L, n=2, forceOnP2=should_inv)
-    # Force3D = normalize(Force3D)
-    p = P1 if not should_inv else P2
-    ax.quiver(p[0], p[1], p[2], Force3D[0], Force3D[1],
-              Force3D[2], length=0.1, color=(1, 0, 0, 1))
+    # print(type(points))
+    # print(points.shape)
 
-    plt.show()
+    # # Tz, Tx = getForcesOnEnds2D(1, P1[0], P2[0], L, n=2)
+    # # print("Tz:{}    Tx:{}".format(Tz, Tx))
+
+    # should_inv = 0
+    # Force3D = getForcesOnEnds3D(1, P1, P2, L, n=2, forceOnP2=should_inv)
+    # # Force3D = normalize(Force3D)
+    # p = P1 if not should_inv else P2
+    # ax.quiver(p[0], p[1], p[2], Force3D[0], Force3D[1],
+    #           Force3D[2], length=0.1, color=(1, 0, 0, 1))
+
+    # plt.show()

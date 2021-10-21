@@ -45,9 +45,9 @@ def processFeedback(feedback):
         # rospy.loginfo(s + ": menu item " +
         # str(feedback.menu_entry_id) + " clicked" + mp + ".")
     elif feedback.event_type == InteractiveMarkerFeedback.POSE_UPDATE:
-        rospy.loginfo("pose changed:")
+        # rospy.loginfo("pose changed:")
         pos = feedback.pose.position
-        print(pos.x, pos.y, pos.z)
+        # print(pos.x, pos.y, pos.z)
     elif feedback.event_type == InteractiveMarkerFeedback.MOUSE_DOWN:
         pass
         # rospy.loginfo(s + ": mouse down" + mp + ".")
@@ -144,12 +144,12 @@ def makeChessPieceMarker(position):
     server.setCallback(int_marker.name, alignMarker,
                        InteractiveMarkerFeedback.POSE_UPDATE)
 
-    int_marker = InteractiveMarker()
-    int_marker.header.frame_id = "moving_frame"
-    int_marker.pose.position = position
-    int_marker.scale = 1
-    int_marker.name = "moving"
-    int_marker.description = "Marker Attached to a\nMoving Frame"
+    # int_marker = InteractiveMarker()
+    # int_marker.header.frame_id = "moving_frame"
+    # int_marker.pose.position = position
+    # int_marker.scale = 1
+    # int_marker.name = "moving"
+    # int_marker.description = "Marker Attached to a\nMoving Frame"
 
     control = InteractiveMarkerControl()
     control.orientation.w = 1
@@ -203,7 +203,7 @@ if __name__ == "__main__":
     # create a timer to update the published transforms
     # rospy.Timer(rospy.Duration(0.01), frameCallback)
 
-    server = InteractiveMarkerServer("basic_controls")
+    server = InteractiveMarkerServer("inter_marker")
 
     # menu_handler.insert("First Entry", callback=processFeedback)
     # menu_handler.insert("Second Entry", callback=processFeedback)

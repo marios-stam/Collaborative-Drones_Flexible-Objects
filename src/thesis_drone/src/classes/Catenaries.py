@@ -1,7 +1,8 @@
 from array import array
 import rospy
 import math
-from visualization_msgs.msg import Marker, MarkerArray
+import time
+from visualization_msgs.msg import Marker, MarkerArray, InteractiveMarkerFeedback
 from geometry_msgs.msg import Point
 from scipy.spatial import distance
 from tf import transformations
@@ -19,6 +20,30 @@ class Catenaries_Handler(Marker):
     def update(self, index, start_end_points_and_lenghts):
         p1, p2, L = start_end_points_and_lenghts[index]
         self.catenaries_array.update_curve(index, p1, p2, L)
+
+    def getDataofCatenary(self, index):
+        start_point = self.catenaries_array.markers[index].start_point
+        end_point = self.catenaries_array.markers[index].end_point
+        length = self.catenaries_array.markers[index].L
+
+        return start_point, end_point, length
+
+    def handleNewInterMarker(self, inter_mark: InteractiveMarkerFeedback):
+        start = time.time()
+        pose_updated = inter_mark.event_type == inter_mark.POSE_UPDATE
+        if pose_updated:
+            pos = inter_mark.pose.position
+
+            start_point, _, L = self.getDataofCatenary(0)
+
+            p1 = start_point
+            p2 = [pos.x, pos.y, pos.z]
+            self.catenaries_array.update_curve(
+                index=0, p1=p1, p2=p2, L=L)
+
+            self.visusalise()
+        dt = time.time()-start
+        print("dt:", dt*1000, "msec")
 
     def visusalise(self):
         self.publisher.publish(self.catenaries_array)
@@ -69,6 +94,11 @@ class Catenary_Marker(Marker):
         points = catenaries.getCatenaryCurve3D(p1, p2, L)
         points = map(lambda p: Point(p[0], p[1], p[2]), points)
         self.points = list(points)
+
+        # custom parameters
+        self.start_point = p1
+        self.end_point = p2
+        self.L = L
 
 
 class Catenary_Marker_Array(MarkerArray):
