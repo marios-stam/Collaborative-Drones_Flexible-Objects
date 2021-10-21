@@ -45,9 +45,9 @@ def processFeedback(feedback):
         # rospy.loginfo(s + ": menu item " +
         # str(feedback.menu_entry_id) + " clicked" + mp + ".")
     elif feedback.event_type == InteractiveMarkerFeedback.POSE_UPDATE:
-        rospy.loginfo("pose changed:")
+        # rospy.loginfo("pose changed:")
         pos = feedback.pose.position
-        print(pos.x, pos.y, pos.z)
+        # print(pos.x, pos.y, pos.z)
     elif feedback.event_type == InteractiveMarkerFeedback.MOUSE_DOWN:
         pass
         # rospy.loginfo(s + ": mouse down" + mp + ".")

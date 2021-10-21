@@ -61,7 +61,7 @@ def listener():
 
     topic_name = '/inter_marker/feedback'
     rospy.Subscriber(topic_name, InteractiveMarkerFeedback,
-                     cat_handler.handleNewMessage)
+                     cat_handler.handleNewInterMarker)
 
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()

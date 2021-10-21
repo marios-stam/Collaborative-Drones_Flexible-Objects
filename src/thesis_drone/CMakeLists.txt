@@ -162,11 +162,12 @@ include_directories(
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS 
-  scripts/path_planning.py
-  scripts/rviz_visual.py
-  scripts/measurements.py
-  scripts/obs_generation.py
-  scripts/tello.py
+  scripts/pose_estimation/path_planning.py
+  scripts/pose_estimation/rviz_visual.py
+  scripts/pose_estimation/measurements.py
+  scripts/pose_estimation/obs_generation.py
+  scripts/pose_estimation/tello.py
+  
   scripts/catenaries.py
   scripts/inter_marker.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
