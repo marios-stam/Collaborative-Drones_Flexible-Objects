@@ -1,8 +1,0 @@
-prefix=/home/marios/catkin_ws/devel
-
-Name: xpp_msgs
-Description: Description of xpp_msgs
-Version: 1.0.10
-Cflags: -I/home/marios/catkin_ws/devel/include -I/home/marios/catkin_ws/src/xpp/xpp_msgs/include
-Libs: -L${prefix}/lib 
-Requires: message_runtime std_msgs geometry_msgs sensor_msgs

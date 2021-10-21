@@ -1,8 +1,0 @@
-prefix=/home/marios/catkin_ws/install
-
-Name: quad_3dnav
-Description: Description of quad_3dnav
-Version: 0.3.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

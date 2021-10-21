@@ -1,3 +1,0 @@
-[submodule "src/thesis_drone/src/Drone_Pose_Estimation"]
-	path = src/thesis_drone/src/Drone_Pose_Estimation
-	url = https://github.com/marios-stam/Drone_Pose_Estimation.git

@@ -1,8 +1,0 @@
-prefix=/home/marios/catkin_ws/install
-
-Name: xpp_quadrotor
-Description: Description of xpp_quadrotor
-Version: 1.0.10
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

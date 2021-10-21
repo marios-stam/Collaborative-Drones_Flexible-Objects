@@ -1,8 +1,0 @@
-prefix=/home/marios/catkin_ws/install
-
-Name: quad_description
-Description: Description of quad_description
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

@@ -1,8 +1,0 @@
-prefix=/home/marios/catkin_ws/devel
-
-Name: xpp_hyq
-Description: Description of xpp_hyq
-Version: 1.0.10
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

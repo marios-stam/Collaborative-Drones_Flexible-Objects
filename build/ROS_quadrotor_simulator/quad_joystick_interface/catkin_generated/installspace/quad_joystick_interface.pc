@@ -1,8 +1,0 @@
-prefix=/home/marios/catkin_ws/install
-
-Name: quad_joystick_interface
-Description: Description of quad_joystick_interface
-Version: 1.0.0
-Cflags: -I${prefix}/include
-Libs: -L${prefix}/lib 
-Requires: roscpp geometry_msgs mav_msgs sensor_msgs

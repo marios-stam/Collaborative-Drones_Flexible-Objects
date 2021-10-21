@@ -1,8 +1,0 @@
-prefix=/home/marios/catkin_ws/devel
-
-Name: glog_catkin
-Description: Description of glog_catkin
-Version: 0.3.5
-Cflags: -I/home/marios/catkin_ws/devel/include
-Libs: -L${prefix}/lib -lglog
-Requires: 

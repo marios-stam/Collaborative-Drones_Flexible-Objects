@@ -1,1 +1,0 @@
-cmd='cd;../glog_src/;&&;autoreconf;-fi;&&;./configure;--with-pic;--with-gflags=;--prefix=/home/marios/catkin_ws/devel'
