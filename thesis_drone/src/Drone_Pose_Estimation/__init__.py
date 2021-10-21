@@ -1,2 +1,0 @@
-from .pose_extractor import pose_extractor
-from .CV_techniques.pose_extractor_CV import pose_extractor_CV_techniques

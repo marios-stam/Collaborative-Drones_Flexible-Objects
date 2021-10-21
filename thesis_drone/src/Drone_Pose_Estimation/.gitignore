@@ -1,7 +1,0 @@
-frame[0-9].jpg
-frame[0-9][0-9].jpg
-[0-9].jpg
-__pycache__/
-calivration/__pycache__/
-.vscode/.ropeproject/
-CV_techniques/.~lock.area_depth_data.ods#
