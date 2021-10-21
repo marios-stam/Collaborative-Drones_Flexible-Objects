@@ -1,0 +1,6 @@
+thesis_drone/src/catenary/__pycache__/
+thesis_drone/src/classes/__pycache__/
+thesis_drone/src/Geometry_functions/__pycache__/
+thesis_drone/src/path_planning/__pycache__/
+
+scripts/__pycache__/
