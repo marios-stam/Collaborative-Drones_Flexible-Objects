@@ -56,10 +56,10 @@ Visualization Manager:
       Value: true
     - Class: rviz/MarkerArray
       Enabled: true
-      Marker Topic: catenaries_array4
+      Marker Topic: catenaries_array
       Name: MarkerArray
       Namespaces:
-        {}
+        caten_0: true
       Queue Size: 10
       Value: true
     - Class: rviz/InteractiveMarkers
@@ -99,7 +99,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 9.94583797454834
+      Distance: 15.649969100952148
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -115,9 +115,9 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.6597968935966492
+      Pitch: 0.7047970294952393
       Target Frame: <Fixed Frame>
-      Yaw: 1.6303378343582153
+      Yaw: 1.8703373670578003
     Saved: ~
 Window Geometry:
   Displays:
